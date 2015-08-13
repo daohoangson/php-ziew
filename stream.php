@@ -5,6 +5,7 @@ $mimeType = getMimeType($tmpFilePath);
 
 printCachingHttpHeaders();
 header(sprintf('Content-Type: %s', $mimeType));
+header(sprintf('Content-Length: %d', filesize($tmpFilePath)));
 
 $fh = fopen($tmpFilePath, 'rb');
 if (empty($fh)) {
