@@ -63,6 +63,7 @@
             text-align: right;
         }
         .action-view .nav .nav-file {
+            background-position: center;
             background-size: cover;
             color: transparent;
             display: inline-block;
