@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d1e8799c59844d3470c277e030c9a8f9",
+    "hash": "74da7a650b4e4a12399570063de21041",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -493,6 +493,36 @@
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
             "time": "2015-07-01 11:25:50"
+        },
+        {
+            "name": "videojs/video.js",
+            "version": "v4.12.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/videojs/video.js.git",
+                "reference": "01ea3d1ae3cda1754148967d0b170582ceb2dcc7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/videojs/video.js/zipball/01ea3d1ae3cda1754148967d0b170582ceb2dcc7",
+                "reference": "01ea3d1ae3cda1754148967d0b170582ceb2dcc7",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "An HTML5 and Flash video player with a common API and skin for both.",
+            "homepage": "http://www.videojs.com/",
+            "keywords": [
+                "HTML5",
+                "flash",
+                "player",
+                "video",
+                "videojs"
+            ],
+            "time": "2015-07-23 17:37:30"
         }
     ],
     "packages-dev": [],

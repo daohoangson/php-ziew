@@ -24,8 +24,9 @@ $zipPaths = tryCache('findZipPaths', array($root));
             $tmpFilePaths = tryCache('extractZip', array($zipPath, $password), false);
 
             if (!empty($tmpFilePaths)) {
-                if (count($tmpFilePaths) > 5) {
-                    $tmpFilePaths = array_slice($tmpFilePaths, 0, 5);
+                $maxFiles = 10;
+                if (count($tmpFilePaths) > $maxFiles) {
+                    $tmpFilePaths = array_slice($tmpFilePaths, 0, $maxFiles);
                 } elseif (count($tmpFilePaths) === 1) {
                     while ($i + 1 < $l) {
                         $_zipPath = $zipPaths[$i + 1];

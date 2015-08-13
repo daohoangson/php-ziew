@@ -2,7 +2,8 @@
     "name": "daohoangson/php-ziew",
     "description": "Zip Archive Viewer",
     "require": {
-        "php-ffmpeg/php-ffmpeg": "^0.6.0"
+        "php-ffmpeg/php-ffmpeg": "^0.6.0",
+        "videojs/video.js": "^4.12"
     },
     "authors": [
         {

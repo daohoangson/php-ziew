@@ -38,6 +38,9 @@ switch (getParam('action')) {
     case 'files':
         require('page_files.php');
         break;
+    case 'view':
+        require('page_view.php');
+        break;
     case 'zip':
         require('page_zip.php');
         break;

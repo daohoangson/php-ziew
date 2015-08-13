@@ -108,7 +108,16 @@ function extractZip($zipPath, $password)
         throw new InvalidArgumentException(sprintf('ZipArchive::extractTo(%s) with $password=%s failed', $tmp, $password));
     }
 
-    return glob(sprintf('%s/*', $tmp));
+    $tmpFilePaths = glob(sprintf('%s/*', $tmp));
+
+    foreach(array_keys($tmpFilePaths) as $i) {
+        if (substr($tmpFilePaths[$i], -4) === '.pxm') {
+            unset($tmpFilePaths[$i]);
+        }
+    }
+    $tmpFilePaths = array_values($tmpFilePaths);
+
+    return $tmpFilePaths;
 }
 
 /**
@@ -135,9 +144,6 @@ function getMimeType($tmpFilePath)
             break;
         case 'png':
             $mimeType = 'image/png';
-            break;
-        case 'pxm':
-            $mimeType = 'application/pxm';
             break;
     }
 
@@ -170,6 +176,10 @@ function getParam($key)
 {
     switch ($key) {
         case 'action':
+            if (!empty($_REQUEST[$key])) {
+                return $_REQUEST[$key];
+            }
+            return 'index';
         case 'no-cache':
             if (!empty($_REQUEST[$key])) {
                 return $_REQUEST[$key];
