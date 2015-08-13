@@ -9,6 +9,7 @@ $zipPaths = tryCache('findZipPaths', array($root));
 <h5>
     [<a href="<?php echo buildUrl('expand_all'); ?>">Expand All</a>]
     [<a href="<?php echo buildUrl('files'); ?>">Files</a>]
+    [<a href="<?php echo buildUrl('videos'); ?>">Videos</a>]
     [<a href="<?php echo buildUrl('reset_config'); ?>" style="color: red">Mischief Managed</a>]
 </h5>
 

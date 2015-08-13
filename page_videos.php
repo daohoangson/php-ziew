@@ -18,11 +18,17 @@ foreach ($zipPaths as $zipPath) {
     }
 }
 
+foreach (array_keys($tmpFilePaths) as $i) {
+    $mimeType = getMimeType($tmpFilePaths[$i]);
+    if (substr($mimeType, 0, 6) !== 'video/') {
+        unset($tmpFilePaths[$i]);
+    }
+}
+$tmpFilePaths = array_values($tmpFilePaths);
+
 ?>
 
-<h2><a href="<?php echo buildUrl(''); ?>">/</a>Files (<?php echo(count($tmpFilePaths)); ?>)</h2>
-<h5>
-    [<a href="<?php echo buildUrl('videos'); ?>">Videos</a>]
-</h5>
+<h2><a href="<?php echo buildUrl(''); ?>">/</a><a href="<?php echo
+    buildUrl('files'); ?>">Files</a>/Videos (<?php echo(count($tmpFilePaths)); ?>)</h2>
 
 <?php require('block_tmp_files.php'); ?>

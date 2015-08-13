@@ -17,7 +17,7 @@ $img = imagecreatefromjpeg($tmp);
 $width = imagesx($img);
 $height = imagesy($img);
 
-$targetHeight = min($height, 200);
+$targetHeight = min($height, 480);
 $targetWidth = $width * $targetHeight / $height;
 $thumbnail = imagecreatetruecolor($targetWidth, $targetHeight);
 imagecopyresampled($thumbnail, $img, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
