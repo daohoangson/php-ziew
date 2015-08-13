@@ -15,7 +15,9 @@ function findZipPaths($dirPath, $rootPath = null)
         // TODO: support going from root
         $dirPath = '.';
     }
+    $rootPathIsNull = false;
     if ($rootPath === null) {
+        $rootPathIsNull = true;
         $rootPath = $dirPath;
     }
 
@@ -31,13 +33,18 @@ function findZipPaths($dirPath, $rootPath = null)
                     throw new Exception(sprintf('Unable to extract $relativePath from %s ($rootPath=%s)', $entryPath, $rootPath));
                 }
 
-                $zipPaths[] = ltrim($relativePath, '/');
+                $zipPaths[basename($relativePath) . $entryPath] = ltrim($relativePath, '/');
             }
         }
 
         foreach ($subDirPaths as $subDirPath) {
             $zipPaths = array_merge($zipPaths, findZipPaths($subDirPath, $rootPath));
         }
+    }
+
+    if ($rootPathIsNull) {
+        ksort($zipPaths);
+        $zipPaths = array_values($zipPaths);
     }
 
     return $zipPaths;
@@ -163,14 +170,13 @@ function getParam($key)
 {
     switch ($key) {
         case 'action':
-        case 'mime-type':
         case 'no-cache':
+            if (!empty($_REQUEST[$key])) {
+                return $_REQUEST[$key];
+            }
+            break;
         case 'path':
             if (!empty($_REQUEST[$key])) {
-                if ($key === 'action') {
-                    return $_REQUEST[$key];
-                }
-
                 return openssl_decrypt(base64_decode($_REQUEST[$key]),
                     getCryptMethod(), getParam('password'), 0, getCryptIv());
             }

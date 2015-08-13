@@ -13,42 +13,61 @@ $zipPaths = tryCache('findZipPaths', array($root));
 </h5>
 
 <ul class="zips">
-    <?php foreach ($zipPaths as $zipPath): ?>
+    <?php $l = count($zipPaths); ?>
+    <?php for ($i = 0; $i < $l; $i++): ?>
         <li class="zip">
             <?php
 
-            $fileSize = filesize(getZipPathFull($zipPath));
-            $sizeClass = 'normal';
-            if ($fileSize < 1024 * 1024) {
-                $sizeClass = 'small';
-            } elseif ($fileSize > 5 * 1024 * 1024) {
-                $sizeClass = 'big';
-
-                if ($fileSize > 100 * 1024 * 1024) {
-                    $sizeClass = 'huge';
-                }
-            }
-
+            $zipPath = $zipPaths[$i];
+            $zipPathGroup = array($zipPath);
             $password = getZipPassword($zipPath);
             $tmpFilePaths = tryCache('extractZip', array($zipPath, $password), false);
 
-            ?>
-
-            <a href="<?php echo buildUrl('zip', array('path' => $zipPath)); ?>" class="size-<?php echo $sizeClass; ?>">
-                <?php echo htmlentities($zipPath); ?>
-            </a>
-
-            (<?php echo getHumanSize($fileSize); ?><?php if (!empty($tmpFilePaths) > 0) echo(sprintf(', %d files', count($tmpFilePaths))); ?>)
-
-            <?php
-                if (!empty($tmpFilePaths)) {
-                    if (count($tmpFilePaths) > 5) {
-                        $tmpFilePaths = array_slice($tmpFilePaths, 0, 5);
+            if (!empty($tmpFilePaths)) {
+                if (count($tmpFilePaths) > 5) {
+                    $tmpFilePaths = array_slice($tmpFilePaths, 0, 5);
+                } elseif (count($tmpFilePaths) === 1) {
+                    while ($i + 1 < $l) {
+                        $_zipPath = $zipPaths[$i + 1];
+                        $_password = getZipPassword($_zipPath);
+                        $_tmpFilePaths = tryCache('extractZip', array($_zipPath, $_password), false);
+                        if (!empty($_tmpFilePaths) && count($_tmpFilePaths) === 1) {
+                            $zipPathGroup[] = $_zipPath;
+                            $tmpFilePaths = array_merge($tmpFilePaths, $_tmpFilePaths);
+                            $i++;
+                        } else {
+                            break;
+                        }
                     }
-
-                    require('block_tmp_files.php');
                 }
+            }
+
             ?>
+
+            <?php foreach ($zipPathGroup as $__zipPath): ?>
+                <?php
+
+                $__fileSize = filesize(getZipPathFull($__zipPath));
+                $__sizeClass = 'normal';
+                if ($__fileSize < 1024 * 1024) {
+                    $__sizeClass = 'small';
+                } elseif ($__fileSize > 5 * 1024 * 1024) {
+                    $__sizeClass = 'big';
+
+                    if ($__fileSize > 100 * 1024 * 1024) {
+                        $__sizeClass = 'huge';
+                    }
+                }
+
+                ?>
+                <a href="<?php echo buildUrl('zip', array('path' => $__zipPath)); ?>" class="size-<?php echo $__sizeClass; ?>">
+                    <?php echo htmlentities($__zipPath); ?>
+                </a>
+                (<?php echo getHumanSize($__fileSize); ?><?php if (count($zipPathGroup) == 1 && !empty($tmpFilePaths)) echo(sprintf(', %d files', count($tmpFilePaths))); ?>)
+                <br />
+            <?php endforeach; ?>
+
+            <?php if (!empty($tmpFilePaths)) require('block_tmp_files.php'); ?>
         </li>
-    <?php endforeach; ?>
+    <?php endfor; ?>
 </ul>
