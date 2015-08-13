@@ -167,27 +167,33 @@ function getParam($key)
         case 'no-cache':
         case 'path':
             if (!empty($_REQUEST[$key])) {
-                return $_REQUEST[$key];
-            } else {
-                return '';
+                if ($key === 'action') {
+                    return $_REQUEST[$key];
+                }
+
+                return openssl_decrypt(base64_decode($_REQUEST[$key]),
+                    getCryptMethod(), getParam('password'), 0, getCryptIv());
             }
+            break;
         case 'memcache_host':
         case 'memcache_port':
-        case 'root':
-            if (isset($_REQUEST[$key])) {
-                return $_REQUEST[$key];
-            } elseif (!empty($GLOBALS['config'][$key])) {
+            if (!empty($GLOBALS['config'][$key])) {
                 return $GLOBALS['config'][$key];
-            } else {
-                return '.';
             }
+            break;
+        case 'root':
+            if (isset($_COOKIE[$key])) {
+                return $_COOKIE[$key];
+            }
+            break;
         case 'password':
-            if (isset($_REQUEST['password'])) {
-                return base64_decode($_REQUEST['password']);
+            if (isset($_COOKIE[$key])) {
+                return base64_decode($_COOKIE[$key]);
             }
-
-            return '';
+            break;
     }
+
+    return '';
 }
 
 /**
@@ -199,22 +205,9 @@ function buildUrl($action, array $params = array())
 {
     $url = sprintf('index.php?action=%s', urlencode($action));
 
-    $root = getParam('root');
-    $configRoot = '';
-    if (!empty($GLOBALS['config']['root'])) {
-        $configRoot = $GLOBALS['config']['root'];
-    }
-    if ($root !== $configRoot) {
-        $url .= sprintf('&root=%s', urlencode($root));
-    }
-
-    $password = getParam('password');
-    if (!empty($password)) {
-        $url .= sprintf('&password=%s', urlencode(base64_encode($password)));
-    }
-
     foreach ($params as $key => $value) {
-        $url .= sprintf('&%s=%s', $key, urlencode($value));
+        $url .= sprintf('&%s=%s', $key, urlencode(base64_encode(openssl_encrypt($value,
+            getCryptMethod(), getParam('password'), 0, getCryptIv()))));
     }
 
     switch ($action) {
@@ -308,4 +301,19 @@ function getCacheConnection()
     }
 
     return $conn;
+}
+
+function setSession($key, $value)
+{
+    setcookie($key, $value);
+}
+
+function getCryptMethod()
+{
+    return 'aes128';
+}
+
+function getCryptIv()
+{
+    return substr(md5(__FILE__), 0, 16);
 }

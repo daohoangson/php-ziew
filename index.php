@@ -4,8 +4,12 @@ require('config.php');
 require('helpers.php');
 require('functions.php');
 @include('vendor/autoload.php');
+set_time_limit(0);
 
 switch (getParam('action')) {
+    case 'reset_config':
+        require('reset_config.php');
+        break;
     case 'save_config':
         require('save_config.php');
         die;
@@ -25,6 +29,9 @@ switch (getParam('action')) {
 
 ob_start();
 switch (getParam('action')) {
+    case 'config':
+        require('page_config.php');
+        break;
     case 'zip':
         require('page_zip.php');
         break;

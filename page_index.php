@@ -5,7 +5,10 @@ $zipPaths = tryCache('findZipPaths', array($root));
 
 ?>
 
-<h1><?php echo $root; ?></h1>
+<h1>
+    <?php echo $root; ?>
+    (<a href="<?php echo buildUrl('reset_config'); ?>">Reset</a>)
+</h1>
 
 <ul class="zips">
     <?php foreach ($zipPaths as $zipPath): ?>
