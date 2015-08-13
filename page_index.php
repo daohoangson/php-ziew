@@ -22,10 +22,13 @@ $zipPaths = tryCache('findZipPaths', array($root));
             $zipPathGroup = array($zipPath);
             $password = getZipPassword($zipPath);
             $tmpFilePaths = tryCache('extractZip', array($zipPath, $password), false);
+            $tmpFilePathsCount = 0;
 
             if (!empty($tmpFilePaths)) {
                 $maxFiles = 10;
-                if (count($tmpFilePaths) > $maxFiles) {
+                $tmpFilePathsCount = count($tmpFilePaths);
+
+                if ($tmpFilePathsCount > $maxFiles) {
                     $tmpFilePaths = array_slice($tmpFilePaths, 0, $maxFiles);
                 } elseif (count($tmpFilePaths) === 1) {
                     while ($i + 1 < $l) {
@@ -64,7 +67,7 @@ $zipPaths = tryCache('findZipPaths', array($root));
                 <a href="<?php echo buildUrl('zip', array('path' => $__zipPath)); ?>" class="size-<?php echo $__sizeClass; ?>">
                     <?php echo htmlentities($__zipPath); ?>
                 </a>
-                (<?php echo getHumanSize($__fileSize); ?><?php if (count($zipPathGroup) == 1 && !empty($tmpFilePaths)) echo(sprintf(', %d files', count($tmpFilePaths))); ?>)
+                (<?php echo getHumanSize($__fileSize); ?><?php if (count($zipPathGroup) == 1 && $tmpFilePathsCount > 0) echo(sprintf(', %d files', $tmpFilePathsCount)); ?>)
                 <br />
             <?php endforeach; ?>
 
