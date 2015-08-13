@@ -80,7 +80,7 @@ function getZipPasswordCacheKey($zipPath)
  */
 function extractZip($zipPath, $password)
 {
-    $tmp = tempnam(sys_get_temp_dir(), '');
+    $tmp = tempnam(sys_get_temp_dir(), 'extractZip');
     if (file_exists($tmp)) {
         unlink($tmp);
     }
@@ -220,6 +220,7 @@ function buildUrl($action, array $params = array())
     switch ($action) {
         case 'stream':
         case 'thumbnail':
+        case 'vthumbnail':
             break;
         default:
             $url .= sprintf('&_=%d', time());

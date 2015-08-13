@@ -1,0 +1,13 @@
+{
+    "name": "daohoangson/php-ziew",
+    "description": "Zip Archive Viewer",
+    "require": {
+        "php-ffmpeg/php-ffmpeg": "^0.6.0"
+    },
+    "authors": [
+        {
+            "name": "Dao Hoang Son",
+            "email": "daohoangson@gmail.com"
+        }
+    ]
+}

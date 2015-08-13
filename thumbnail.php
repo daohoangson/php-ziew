@@ -21,7 +21,7 @@ if (empty($img)) {
 $width = imagesx($img);
 $height = imagesy($img);
 
-$targetHeight = 100;
+$targetHeight = min($height, 200);
 $targetWidth = $width * $targetHeight / $height;
 $thumbnail = imagecreatetruecolor($targetWidth, $targetHeight);
 imagecopyresampled($thumbnail, $img, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);

@@ -3,6 +3,7 @@
 require('config.php');
 require('helpers.php');
 require('functions.php');
+@include('vendor/autoload.php');
 
 switch (getParam('action')) {
     case 'save_config':
@@ -16,6 +17,9 @@ switch (getParam('action')) {
         die;
     case 'thumbnail':
         require('thumbnail.php');
+        die;
+    case 'vthumbnail':
+        require('vthumbnail.php');
         die;
 }
 
