@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php getVariable('title'); ?></title>
+    <title><?php echo getVariable('title'); ?></title>
     <style>
         .size-small { color: green; }
-        .size-normal { color: black; }
-        .size-big { color: orange; }
-        .size-huge { color: red; }
+        .size-normal { color: cornflowerblue; }
+        .size-big { color: lightpink; }
+        .size-huge { color: orange; }
         
         .file img {
             max-height: 100px;
         }
 
-        .files {
+        ul {
             list-style: none;
             margin: 0;
             overflow: auto;

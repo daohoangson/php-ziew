@@ -1,7 +1,8 @@
 <ul class="files">
     <?php foreach ($tmpFilePaths as $tmpFilePath): ?>
         <li class="file">
-            <a href="<?php echo buildUrl('stream', array('path' => $tmpFilePath)); ?>" target="_blank">
+            <a href="<?php echo buildUrl('stream', array('path' => $tmpFilePath)); ?>"
+               target="_blank" title="<?php echo htmlentities($zipPath); ?>/<?php echo basename($tmpFilePath); ?>">
                 <?php
 
                 $mimeType = getMimeType($tmpFilePath);

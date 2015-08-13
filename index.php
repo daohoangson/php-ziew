@@ -7,6 +7,9 @@ require('functions.php');
 set_time_limit(0);
 
 switch (getParam('action')) {
+    case 'expand_all':
+        require('expand_all.php');
+        break;
     case 'reset_config':
         require('reset_config.php');
         break;
@@ -31,6 +34,9 @@ ob_start();
 switch (getParam('action')) {
     case 'config':
         require('page_config.php');
+        break;
+    case 'files':
+        require('page_files.php');
         break;
     case 'zip':
         require('page_zip.php');
